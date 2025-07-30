@@ -86,7 +86,13 @@ export class ProjectService {
         }
       });
 
-      this.projectRootPath = (await window['env'].get("AILY_PROJECT_PATH")).replace('%HOMEPATH%\\Documents', window['path'].getUserDocuments());
+      // 优先使用用户自定义的项目路径，如果没有则使用默认路径
+      const customPath = this.configService.data?.customProjectPath;
+      if (customPath && window['path'].isExists(customPath)) {
+        this.projectRootPath = customPath;
+      } else {
+        this.projectRootPath = (await window['env'].get("AILY_PROJECT_PATH")).replace('%HOMEPATH%\\Documents', window['path'].getUserDocuments());
+      }
       this.currentProjectPath = this.projectRootPath;
     }
   }
@@ -239,7 +245,13 @@ export class ProjectService {
     };
     this.stateSubject.next('default');
     this.uiService.closeTerminal();
-    this.currentProjectPath = (await window['env'].get("AILY_PROJECT_PATH")).replace('%HOMEPATH%\\Documents', window['path'].getUserDocuments());
+    // 优先使用用户自定义的项目路径，如果没有则使用默认路径
+    const customPath = this.configService.data?.customProjectPath;
+    if (customPath && window['path'].isExists(customPath)) {
+      this.currentProjectPath = customPath;
+    } else {
+      this.currentProjectPath = (await window['env'].get("AILY_PROJECT_PATH")).replace('%HOMEPATH%\\Documents', window['path'].getUserDocuments());
+    }
     this.router.navigate(['/main/guide'], { replaceUrl: true });
   }
 

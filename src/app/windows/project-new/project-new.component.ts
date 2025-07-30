@@ -67,10 +67,17 @@ export class ProjectNewComponent {
   ) { }
 
   async ngOnInit() {
-    if (this.electronService.isElectron) {
-      this.newProjectData.path = window['path'].getUserDocuments() + `${pt}aily-project${pt}`;
-    }
     await this.configService.init();
+    
+    if (this.electronService.isElectron) {
+      // 优先使用用户自定义的项目路径，如果没有则使用默认路径
+      const customPath = this.configService.data?.customProjectPath;
+      if (customPath && window['path'].isExists(customPath)) {
+        this.newProjectData.path = customPath + `${pt}`;
+      } else {
+        this.newProjectData.path = window['path'].getUserDocuments() + `${pt}aily-project${pt}`;
+      }
+    }
     this._boardList = this.process(await this.configService.loadBoardList());
     this.boardList = JSON.parse(JSON.stringify(this._boardList));
     this.currentBoard = this.boardList[0];

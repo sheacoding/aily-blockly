@@ -141,4 +141,7 @@ interface AppConfig {
 
   /** 跳过更新的版本列表 */
   skippedVersions?: string[];
+
+  /** 自定义项目路径 */
+  customProjectPath?: string;
 }

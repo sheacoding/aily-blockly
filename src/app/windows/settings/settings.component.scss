@@ -168,6 +168,13 @@ ngx-simplebar {
 }
 
 .item {
+  margin-bottom: 20px;
+  
+  > div:first-child {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
   .item-inner {
     background: #363636;
     border: 1px solid #434343;
@@ -187,8 +194,89 @@ ngx-simplebar {
       }
     }
   }
+
+  // 特殊处理项目路径设置项
+  &:has(.project-path-container) {
+    > div:first-child {
+      margin-bottom: 8px;
+    }
+  }
 }
 
 [disabled] {
   opacity: 0.6;
 }
+
+// 项目路径设置相关样式
+.project-path-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+
+  input {
+    flex: 1;
+    min-width: 200px; // 确保最小宽度
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    height: 32px;
+    background: #363636;
+    border: 1px solid #434343;
+    color: rgba(255, 255, 255, 0.85);
+    
+    &:focus {
+      border-color: #1890ff;
+      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    }
+    
+    &.error {
+      border-color: #ff4d4f !important;
+      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+  }
+
+  button {
+    height: 32px;
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0; // 防止按钮被压缩
+    font-size: 14px;
+    background: #434343;
+    border: 1px solid #595959;
+    color: rgba(255, 255, 255, 0.85);
+    
+    &:hover {
+      background: #595959;
+      border-color: #737373;
+    }
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
+
+.path-validation-error {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  
+  &:before {
+    content: '⚠';
+    margin-right: 4px;
+    font-size: 14px;
+  }
+}
+
